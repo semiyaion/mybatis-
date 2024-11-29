@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mybatistest.mapper.EmpoyeeMapper">
+    <!--    配接口-->
+
+    <!--    #{xxx}:占位符加赋值-->
+    <!--    ${xxx}:就是一个字符串拼接-->
+    <!--    最好使用#{}   防止注入攻击的问题-->
+
+
+    <!--    id给的是接口中的抽象方法名，resultType是对应的实体类对象-->
+    <select id="querybuid" resultType="mybatistest.pojo.Emyloyeepojo">
+
+        select empid, emname, empsalary
+        from employee
+        where empid = #{id}
+    </select>
+    <delete id="deletebuid">
+        delete
+        from employee
+        where empid = #{id}
+    </delete>
+    <select id="querybyname" resultType="mybatistest.pojo.Emyloyeepojo">
+        select empid, emname, empsalary
+        from employee
+        where emname = #{name}
+
+    </select>
+    <!--    key中传入对应的属性名即可-->
+    <insert id="insertemp">
+
+        insert into employee (empid, emname, empsalary)
+        values (null, #{emname}, #{empsalary});
+    </insert>
+    <!--    传入多个简单类型取值方法
+                1.注解指定@param注解，指定多个简单参数的key,key=@Param（“value值"）
+                2.mybatis默认机制
+                    arg0 arg1....形参从左到右arg0  arg1...
+                    (empid,empsalary)  empid=key=arg0  empsalary=key=arg1-->
+    <select id="querybyidandsalary" resultType="mybatistest.pojo.Emyloyeepojo">
+        select empid, emname, empsalary
+        from employee
+        where empid = #{a}
+          and empsalary = #{b}
+    </select>
+    <!--    传入map怎么指定key的值
+                key=map的key即可-->
+    <insert id="insertemp1">
+        insert into employee (emname, empsalary)
+        values (#{emname}, #{empsalary});
+    </insert>
+    <select id="qeerybylike" resultType="mybatistest.pojo.Emyloyeepojo">
+        select *
+        from employee
+        where emname like '%${mohu}%';
+    </select>
+
+
+</mapper>

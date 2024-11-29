@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="resultmaptest.mapper.DeptMapper">
+    <select id="getEmpandDepybysteptwo" resultType="Dept">
+        select *
+        from dept1
+        where dept_id = #{deptId}
+    </select>
+    <resultMap id="deptandempinfmap" type="Dept">
+        <id column="dept_id" property="deptId"/>
+        <result column="dept_name" property="deptName"/>
+        <collection property="emps" ofType="Emp">
+            <id column="emp_id" property="empId"></id>
+            <result column="emp_name" property="empName"></result>
+            <result column="age" property="age"></result>
+            <result column="gender" property="gender"></result>
+        </collection>
+        <!--        oftype是用于设置结合类型中存储的数据的类型-->
+    </resultMap>
+    <select id="getDeptAndEmpbyDeptID" resultMap="deptandempinfmap">
+        select emp1.*, dept1.*
+        from dept1
+                 left join emp1 on emp1.dept_id = dept1.dept_id
+        where dept1.dept_id = #{deptId}
+    </select>
+
+    <resultMap id="selectempanddept" type="Dept">
+        <id column="dept_id" property="deptId"></id>
+        <result column="dept_name" property="deptName"></result>
+        <collection property="emps"
+                    select="resultmaptest.mapper.EmpMapper.getinfanddepbystepTwo"
+                    column="dept_id"></collection>
+    </resultMap>
+    <select id="getEmpandDeptinfStepOne" resultMap="selectempanddept">
+        select *
+        from dept1
+        where dept_id = #{deptId}
+    </select>
+
+</mapper>
