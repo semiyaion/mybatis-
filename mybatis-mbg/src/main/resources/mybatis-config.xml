@@ -8,6 +8,14 @@
         <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
     <!--环境配置，连接的数据库，这里使用的是MySQL-->
+    <typeAliases>
+        <typeAlias type="com.mybatis.mapper.EmpMapper"/>
+        <typeAlias type="com.mybatis.mapper.DeptMapper"/>
+    </typeAliases>
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+        <!--        拦截器-->
+    </plugins>
     <environments default="mysql">
         <environment id="mysql">
             <!--指定事务管理的类型，这里简单使用Java的JDBC的提交和回滚设置-->
@@ -24,6 +32,7 @@
     <mappers>
         <!--这是告诉Mybatis区哪找持久化类的映射文件，对于在src下的文件直接写文件名，
             如果在某包下，则要写明路径,如：com/mybatistest/config/User.xml-->
-
+        <mapper resource="mybatis/mapper/EmpMapper.xml"/>
+        <mapper resource="mybatis/mapper/DeptMapper.xml"/>
     </mappers>
 </configuration>
